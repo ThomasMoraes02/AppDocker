@@ -12,7 +12,7 @@ Este é um projeto PHP básico que utiliza Docker para facilitar o ambiente de d
 1. Clone este repositório:
 
     ```bash
-    git clone https://github.com/seu-usuario/seu-projeto.git
+    git clone https://github.com/ThomasMoraes02/AppDocker.git
     cd seu-projeto
     ```
 
