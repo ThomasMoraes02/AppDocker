@@ -1,8 +1,6 @@
 <?php 
 namespace App\Application\UseCases\User\CreateUser;
 
-use InvalidArgumentException;
-use App\Domain\Entities\User\User;
 use App\Domain\Factories\UserFactory;
 use App\Application\Repositories\UserRepository;
 use App\Domain\Entities\Email;
