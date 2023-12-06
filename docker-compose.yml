@@ -18,6 +18,8 @@ services:
         - 3309:3306
         environment:
         - MYSQL_ROOT_PASSWORD=root
+        volumes:
+        - ./docker/mysql:/var/lib/mysql
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -29,5 +31,3 @@ services:
         - PMA_PORT=3306
         - PMA_USER=root
         - PMA_PASSWORD=root
-        volumes:
-        - ./docker/mysql:/var/lib/mysql
