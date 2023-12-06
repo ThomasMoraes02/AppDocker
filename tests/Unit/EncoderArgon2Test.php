@@ -13,4 +13,12 @@ class EncoderArgon2Test extends TestCase
 
         $this->assertIsString($passwordHash);
     }
+
+    public function test_must_decode_password()
+    {
+        $encoder = new EncoderArgon2();
+        $passwordHash = $encoder->encode('123456');
+
+        $this->assertTrue($encoder->decode('123456', $passwordHash));
+    }
 }
