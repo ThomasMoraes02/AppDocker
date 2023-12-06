@@ -1,5 +1,5 @@
 <?php 
-namespace App\Test\Unit;
+namespace App\Test\phpunit\Unit;
 
 use App\Infra\Encoder\EncoderArgon2;
 use PHPUnit\Framework\TestCase;

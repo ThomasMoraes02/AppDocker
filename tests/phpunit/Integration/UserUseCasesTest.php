@@ -1,5 +1,5 @@
 <?php 
-namespace App\Test\Integration;
+namespace App\Test\phpunit\Integration;
 
 use PHPUnit\Framework\TestCase;
 use App\Domain\Entities\User\User;

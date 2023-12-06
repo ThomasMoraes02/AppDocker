@@ -4,6 +4,9 @@
     "config": {
         "platform": {
             "php": "8.2"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     },
     "require": {
@@ -30,5 +33,8 @@
             "name": "Thomas Moraes",
             "email": "tho.vini7@gmail.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "pestphp/pest": "^2.28"
+    }
 }
