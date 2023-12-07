@@ -1,6 +1,5 @@
 <?php
 
-use App\Domain\Entities\User\User;
 use App\Infra\Encoder\EncoderArgon2;
 use App\Domain\Factories\UserFactory;
 use App\Infra\Repositories\UserRepositoryMemory;
