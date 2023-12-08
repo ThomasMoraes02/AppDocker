@@ -1,0 +1,157 @@
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="{{ action }}" method="{{ method }}" data-method="" id="userForm">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalTitle">{{ modalTitle }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="buttonName">{{ buttonName }}</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    // Delete
+    const deleteBtns = document.querySelectorAll('#delete');
+    deleteBtns.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            const userId = event.target.dataset.userid;
+            axios.delete('/users/' + userId)
+            .then(() => {
+                event.target.parentElement.parentElement.remove();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        });
+    });
+
+    // Edit
+    const editBtns = document.querySelectorAll('#edit');
+    editBtns.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            const userId = event.target.dataset.userid;
+            axios.get('/users/' + userId)
+            .then(response => {
+                const user = response.data;
+                document.getElementById('name').value = user.name;
+                document.getElementById('email').value = user.email;
+                document.getElementById('password').value = user.password;
+                document.getElementById('formModalTitle').textContent = 'Edit User';
+
+                const form = document.getElementById('userForm');
+                form.action = '/users/' + userId;
+                form.method = 'put';
+                form.dataset.method = 'put';
+
+                document.getElementById('buttonName').innerHTML = 'Update User';
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        });
+    });
+
+    // Add
+    const addBtn = document.getElementById('add');
+    addBtn.addEventListener('click', () => {
+        document.getElementById('formModalTitle').innerHTML = 'Add User';
+        const form = document.getElementById('userForm');
+        form.action = '/users';
+        form.dataset.method = 'post';
+
+        document.getElementById('buttonName').innerHTML = 'Add User';
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+    });
+
+    // Submit form
+    document.getElementById('userForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const data = {
+            name: name,
+            email: email,
+            password: password
+        };
+
+        const form = document.getElementById('userForm');
+        const formAction = form.action;
+        const formMethod = form.dataset.method;
+
+        axios({
+            method: formMethod,
+            url: formAction,
+            data: data
+        }).then(response => {
+            const userUuid = response.data.uuid;
+            axios.get('/users/' + userUuid)
+            .then(response => {
+                const user = response.data;
+                const tbody = document.querySelector('tbody');
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.uuid}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.createdAt}</td>
+                    <td>${user.updatedAt}</td>
+                    <td>
+                        <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#formModal" data-userid="${user.uuid}" id="edit">Edit</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger btn-sm" data-userid="${user.uuid}" id="delete">Delete</a>
+                    </td>
+                `;
+
+                if(formMethod == 'put') {
+                    const oldTr = document.querySelector('tr[data-userid="' + userUuid + '"]');
+                    tbody.replaceChild(tr, oldTr);
+                } else {
+                    tbody.appendChild(tr);
+                }
+
+                //body.appendChild(tr);
+
+                document.getElementsByClassName('btn-close').item(0).click();
+
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }); 
+</script>

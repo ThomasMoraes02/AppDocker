@@ -85,4 +85,30 @@ class UserRepositoryMysql implements UserRepository
 
         $stmt->execute();
     }
+
+    public function list(): array
+    {
+        $query = "SELECT * FROM users";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $users = array_map(fn($user) => $this->userFactory->restore(
+            $user['uuid'],
+            $user['name'],
+            $user['email'],
+            $user['password'],
+            $user['created_at'],
+            $user['updated_at']
+        ), $users);
+
+        return array_map(fn($user) => [
+            'uuid' => $user->uuid,
+            'name' => $user->name,
+            'email' => (string) $user->email,
+            'password' => (string) $user->password,
+            'created_at' => $user->createdAt->format('d/m/Y - H:i:s'),
+            'updated_at' => $user->updatedAt->format('d/m/Y - H:i:s'),
+        ], $users);
+    }
 }

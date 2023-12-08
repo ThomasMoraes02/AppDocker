@@ -37,4 +37,9 @@ class UserRepositoryMemory implements UserRepository
         $key = array_search($this->userOfUuid($uuid), $this->users, true);
         unset($this->users[$key]);
     }
+
+    public function list(): array
+    {
+        return $this->users;
+    }
 }

@@ -15,4 +15,6 @@ interface UserRepository
     public function delete(string $uuid): void;
 
     public function update(User $user): void;
+
+    public function list(): array;
 }

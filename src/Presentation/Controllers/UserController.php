@@ -29,7 +29,10 @@ class UserController
 
     public function index(Request $request, Response $response, array $args): Response
     {   
-        return $this->view->render($response, 'index.html',[]);
+        $users = $this->userRepository->list();
+        return $this->view->render($response, 'index.html',[
+            "users" => $users
+        ]);
     }
 
     public function store(Request $request, Response $response, array $args): Response

@@ -1,32 +1,47 @@
 {% extends "layout/layout.html" %} 
 
 {% block content %}
+    <div class="mt-4">
+        <table class="table table-dark table-striped table-hover table-bordered table-round table-sm table-responsive w-100 d-block d-md-table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Created</th>
+              <th scope="col">Updated</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.uuid }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.created_at }}</td>
+                    <td>{{ user.updated_at }}</td>
+                    <td>
+                        <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#formModal" data-userid="{{ user.uuid }}" id="edit">Edit</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger btn-sm" data-userid="{{ user.uuid }}" id="delete">Delete</a>
+                    </td>
 
-<div class="my-4">
-<table class="table table-dark table-striped table-hover table-bordered table-sm table-responsive w-100">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Created</th>
-      <th scope="col">Updated</th>
-      <th scope="col">Edit</th>
-      <th scope="col">Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+                </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" id="add">Add User</button>
+    </div>
+
+    {% include 'components/form.html' with {
+        'modalTitle': '',
+        'action': '',
+        'method': '',
+        'buttonName': '',
+    } %}
 
 {% endblock %}
