@@ -10,6 +10,7 @@ use App\Application\UseCases\User\LoadUser\LoadUser;
 use App\Application\UseCases\User\CreateUser\CreateUser;
 use App\Application\UseCases\User\DeleteUser\DeleteUser;
 use App\Application\UseCases\User\UpdateUser\UpdateUser;
+use Slim\Views\Twig;
 
 class UserController
 {
@@ -17,10 +18,18 @@ class UserController
 
     private readonly UserFactory $userFactory;
 
+    private readonly Twig $view;
+
     public function __construct(ContainerInterface $container)
     {
         $this->userRepository = $container->get("UserRepository");
         $this->userFactory = $container->get("UserFactory");
+        $this->view = $container->get('view');
+    }
+
+    public function index(Request $request, Response $response, array $args): Response
+    {   
+        return $this->view->render($response, 'index.html',[]);
     }
 
     public function store(Request $request, Response $response, array $args): Response
