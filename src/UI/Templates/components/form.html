@@ -1,10 +1,10 @@
 <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <form action="{{ action }}" method="{{ method }}" data-method="" id="userForm">
+        <form action="" method="" data-method="" id="userForm">
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModalTitle">{{ modalTitle }}</h5>
+                    <h5 class="modal-title" id="formModalTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
 
@@ -27,7 +27,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary" id="buttonName">{{ buttonName }}</button>
+                    <button type="submit" class="btn btn-primary" id="buttonName"></button>
                 </div>
 
             </div>
@@ -57,24 +57,41 @@
     editBtns.forEach((btn) => {
         btn.addEventListener('click', (event) => {
             const userId = event.target.dataset.userid;
+
+            document.getElementById('formModalTitle').textContent = 'Edit User';
+            document.getElementById('buttonName').innerHTML = 'Update User';
+            const form = document.getElementById('userForm');
+            form.action = '/users/' + userId;
+            form.dataset.method = 'put';
+            form.method = 'put';
+
             axios.get('/users/' + userId)
             .then(response => {
                 const user = response.data;
                 document.getElementById('name').value = user.name;
                 document.getElementById('email').value = user.email;
                 document.getElementById('password').value = user.password;
-                document.getElementById('formModalTitle').textContent = 'Edit User';
-
-                const form = document.getElementById('userForm');
-                form.action = '/users/' + userId;
-                form.method = 'put';
-                form.dataset.method = 'put';
-
-                document.getElementById('buttonName').innerHTML = 'Update User';
             })
             .catch(error => {
                 console.log(error);
             });
+        });
+    });
+
+    const editBtn = document.getElementById('edit');
+    editBtn.addEventListener('click', (event) => {
+        console.log(event);
+        const userId = event.target.dataset.userid;
+
+        axios.get('/users/' + userId)
+        .then(response => {
+            const user = response.data;
+            document.getElementById('name').value = user.name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('password').value = user.password;
+        })
+        .catch(error => {
+            console.log(error);
         });
     });
 
@@ -84,6 +101,7 @@
         document.getElementById('formModalTitle').innerHTML = 'Add User';
         const form = document.getElementById('userForm');
         form.action = '/users';
+        form.method = 'post';
         form.dataset.method = 'post';
 
         document.getElementById('buttonName').innerHTML = 'Add User';
@@ -119,8 +137,12 @@
             .then(response => {
                 const user = response.data;
                 const tbody = document.querySelector('tbody');
-                const tr = document.createElement('tr');
+                const tr = (formMethod == 'put') ? document.querySelector('tr[data-tr-uuid="' + user.uuid + '"]') : document.createElement('tr');
+
+                console.log(tr);
+
                 tr.innerHTML = `
+                    <tr data-tr-uuid="${user.uuid}">
                     <td>${user.uuid}</td>
                     <td>${user.name}</td>
                     <td>${user.email}</td>
@@ -132,19 +154,19 @@
                     <td>
                         <a href="#" class="btn btn-danger btn-sm" data-userid="${user.uuid}" id="delete">Delete</a>
                     </td>
+                    </tr>
                 `;
 
+                console.log(tr);
+
                 if(formMethod == 'put') {
-                    const oldTr = document.querySelector('tr[data-userid="' + userUuid + '"]');
+                    const oldTr = document.querySelector('tr[data-tr-uuid="' + user.uuid + '"]');
                     tbody.replaceChild(tr, oldTr);
                 } else {
                     tbody.appendChild(tr);
                 }
 
-                //body.appendChild(tr);
-
                 document.getElementsByClassName('btn-close').item(0).click();
-
             })
             .catch(error => {
                 console.log(error);

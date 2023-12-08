@@ -20,8 +20,8 @@ class LoadUser
             $user->name,
             $user->email->__toString(),
             $user->password,
-            $user->createdAt->format('Y-m-d H:i:s'),
-            $user->updatedAt->format('Y-m-d H:i:s')
+            $user->createdAt->format('d/m/Y H:i:s'),
+            $user->updatedAt->format('d/m/Y H:i:s')
         );
     }
 }

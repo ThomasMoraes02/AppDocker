@@ -16,7 +16,7 @@
           </thead>
           <tbody>
                 {% for user in users %}
-                <tr>
+                <tr data-tr-uuid="{{ user.uuid }}">
                     <td>{{ user.uuid }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
@@ -28,7 +28,6 @@
                     <td>
                         <a href="#" class="btn btn-danger btn-sm" data-userid="{{ user.uuid }}" id="delete">Delete</a>
                     </td>
-
                 </tr>
                 {% endfor %}
           </tbody>
@@ -37,11 +36,6 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" id="add">Add User</button>
     </div>
 
-    {% include 'components/form.html' with {
-        'modalTitle': '',
-        'action': '',
-        'method': '',
-        'buttonName': '',
-    } %}
+    {% include 'components/form.html' %}
 
 {% endblock %}
