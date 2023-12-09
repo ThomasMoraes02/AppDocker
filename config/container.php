@@ -3,6 +3,7 @@
 use DI\ContainerBuilder;
 use App\Domain\Factories\UserFactory;
 use App\Infra\Encoder\EncoderArgon2;
+use App\Infra\Logging\MonologLogging;
 use App\Infra\Repositories\UserRepositoryMysql;
 
 use function DI\create;
@@ -17,6 +18,7 @@ $containerBuilder->addDefinitions([
     },
     "Encoder" => create(EncoderArgon2::class),
     "UserFactory" => create(UserFactory::class)->constructor(get("Encoder")),
-    "UserRepository" => create(UserRepositoryMysql::class)->constructor(get('PDO'), get('UserFactory'))
+    "UserRepository" => create(UserRepositoryMysql::class)->constructor(get('PDO'), get('UserFactory')),
+    "Logging" => create(MonologLogging::class)
 ]);
 return $containerBuilder->build();
