@@ -27,6 +27,14 @@ class UserController
         $this->view = $container->get('view');
     }
 
+    /**
+     * List all users
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function index(Request $request, Response $response, array $args): Response
     {   
         $users = $this->userRepository->list();
@@ -35,6 +43,14 @@ class UserController
         ]);
     }
 
+    /**
+     * Create a new user
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function store(Request $request, Response $response, array $args): Response
     {
         $payload = json_decode($request->getBody(), true);
@@ -52,6 +68,14 @@ class UserController
         return $response->withStatus($output->hasErrors() ? 400 : 201);
     }
 
+    /**
+     * Show a single user
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function show(Request $request, Response $response, array $args): Response
     {
         $uuid = $request->getAttribute("uuid");
@@ -64,6 +88,14 @@ class UserController
         return $response->withStatus(200);
     }
 
+    /**
+     * Update a user
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function update(Request $request, Response $response, array $args): Response
     {
         $payload = json_decode($request->getBody(), true);
@@ -83,6 +115,14 @@ class UserController
         return $response->withStatus($output->hasErrors() ? 400 : 200);
     }
 
+    /**
+     * Delete a user
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function destroy(Request $request, Response $response, array $args): Response
     {
         $uuid = $request->getAttribute("uuid");

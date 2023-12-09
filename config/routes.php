@@ -13,7 +13,6 @@ $app->addErrorMiddleware(true, true, true);
 // $routeCollector->setCacheFile(__DIR__ . "/../storage/cache/cache.file");
 
 $app->get("/users", [UserController::class, 'index']);
-
 $app->post("/users", [UserController::class, 'store']);
 $app->get("/users/{uuid}",[UserController::class, 'show']);
 $app->delete("/users/{uuid}",[UserController::class, 'destroy']);
