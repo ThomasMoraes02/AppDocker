@@ -1,15 +1,18 @@
 <?php 
 
 use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 use Slim\Factory\AppFactory;
 use App\Presentation\Controllers\UserController;
 use App\Presentation\Middlewares\CorsMiddleware;
 use App\Presentation\Middlewares\ErrorMiddleware;
+use Slim\Exception\HttpNotFoundException;
 
 $app = AppFactory::create();
-$app->addErrorMiddleware(true, true, true);
 
+// Slim Errors Default
+// $app->addErrorMiddleware(true, true, true);
+
+// Cache Route
 // $routeCollector = $app->getRouteCollector();
 // $routeCollector->setCacheFile(__DIR__ . "/../storage/cache/cache.file");
 
@@ -27,7 +30,4 @@ $app->put("/users/{uuid}",[UserController::class, 'update']);
 /**
  * Fallback route
  */
-$app->get("/{any:.*}", function (Request $request, Response $response, array $args) {
-    $response->getBody()->write(json_encode('Resource Not Found'));
-    return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
-});
+$app->get("/{any:.*}",fn(Request $request) => throw new HttpNotFoundException($request, 'Resource Not Found'));
