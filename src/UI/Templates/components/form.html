@@ -139,7 +139,9 @@
                 const tbody = document.querySelector('tbody');
                 const tr = (formMethod == 'put') ? document.querySelector('tr[data-tr-uuid="' + user.uuid + '"]') : document.createElement('tr');
 
-                console.log(tr);
+                if(formMethod == 'post') {
+                    tr.setAttribute('data-tr-uuid', user.uuid);
+                }
 
                 tr.innerHTML = `
                     <tr data-tr-uuid="${user.uuid}">
@@ -156,8 +158,6 @@
                     </td>
                     </tr>
                 `;
-
-                console.log(tr);
 
                 if(formMethod == 'put') {
                     const oldTr = document.querySelector('tr[data-tr-uuid="' + user.uuid + '"]');
