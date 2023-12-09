@@ -3,3 +3,4 @@ vendor
 .vscode
 docker/mysql
 storage/cache/
+storage/logs/

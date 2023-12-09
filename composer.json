@@ -17,7 +17,8 @@
         "php-di/php-di": "^7.0",
         "phpunit/phpunit": "^10.5",
         "firebase/php-jwt": "^6.10",
-        "slim/twig-view": "^3.3"
+        "slim/twig-view": "^3.3",
+        "monolog/monolog": "^3.5"
     },
     "autoload": {
         "psr-4": {
