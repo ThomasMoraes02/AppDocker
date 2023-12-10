@@ -1,10 +1,11 @@
 <?php 
 
 use Slim\Psr7\Request;
+use Slim\Exception\HttpNotFoundException;
 use App\Presentation\Controllers\UserController;
 use App\Presentation\Middlewares\CorsMiddleware;
 use App\Presentation\Middlewares\ErrorMiddleware;
-use Slim\Exception\HttpNotFoundException;
+use App\Presentation\Middlewares\OutputDefaultMiddleware;
 
 /** @var Slim\App $app */
 
